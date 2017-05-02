@@ -1,0 +1,13 @@
+<div class="widget md-whiteframe-2dp" flex>
+  <div class="widget-header" layout="row" layout-align="start center">
+    <h3 class="md-subhead" flex>Tool List</h3>
+  </div>
+  <div class="widget-content">
+    <md-list>
+      <md-list-item ng-repeat="tool in home.tools" ng-click="home.start(tool)">
+        <md-icon class="material-icons">launch</md-icon>
+        <p> {{ tool }} </p>
+      </md-list-item>
+    </md-list>
+  </div>
+</div>

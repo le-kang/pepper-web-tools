@@ -1,0 +1,34 @@
+{
+  "name": "pepper-web-tools",
+  "authors": [
+    "lekang <lekang8817@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-animate": "^1.6.4",
+    "angular-material": "^1.1.4",
+    "angular-messages": "^1.6.4",
+    "angular-sanitize": "^1.6.4",
+    "angular-ui-router": "^0.4.2",
+    "nipplejs": "^0.6.7",
+    "animate.css": "^3.5.2",
+    "lodash": "^4.17.4"
+  },
+  "overrides": {
+    "nipplejs": {
+      "main": "dist/nipplejs.js"
+    }
+  }
+}

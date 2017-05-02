@@ -1,0 +1,63 @@
+<!doctype html>
+<html ng-app="pepperWebTools">
+<head>
+  <title>Pepper Web Tools</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="author" content="Le Kang">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+
+  <!-- build:css(app) styles/vendor.css -->
+  <!-- bower:css -->
+  <!-- run `gulp inject` to automatically populate bower styles dependencies -->
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css({.tmp/serve,app}) styles/app.css -->
+  <!-- inject:css -->
+  <!-- css files will be automatically insert here -->
+  <!-- endinject -->
+  <!-- endbuild -->
+</head>
+
+<body layout="column">
+  <!--[if lt IE 10]>
+  <p class="browsehappy">
+    You are using an <strong>outdated</strong> browser.
+    Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+  </p>
+  <![endif]-->
+
+  <md-toolbar id="header" class="md-whiteframe-1dp">
+    <div class="md-toolbar-tools container" layout="row">
+      <h2 flex><a href="#">Pepper Web Tools</a></h2>
+    </div>
+  </md-toolbar>
+  <md-content id="content" flex>
+    <div ui-view class="container" layout="row" layout-xs="column" layout-margin></div>
+  </md-content>
+  <div id="footer">
+    <div class="container">
+      <p>&copy; The Magic Lab 2017</p>
+    </div>
+  </div>
+
+  <!-- build:js(app) scripts/vendor.js -->
+  <!-- bower:js -->
+  <!-- run `gulp inject` to automatically populate bower script dependencies -->
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <script src="http://pepper.local/libs/qi/2/qi.js"></script>
+
+  <!-- build:js({.tmp/serve,app}) scripts/app.js -->
+  <!-- inject:js -->
+  <!-- js files will be automatically insert here -->
+  <!-- endinject -->
+
+  <!-- inject:templates -->
+  <!-- angular templates will be automatically converted in js and inserted here -->
+  <!-- endinject -->
+  <!-- endbuild -->
+</body>
+</html>

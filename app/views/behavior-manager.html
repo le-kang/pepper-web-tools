@@ -1,0 +1,32 @@
+<div class="widget md-whiteframe-2dp" flex>
+  <div class="widget-header" layout="row" layout-align="start center">
+    <h3 class="md-subhead" flex>Behavior Manager</h3>
+    <md-button aria-label="Go back" class="md-icon-button" ng-href="#">
+      <md-tooltip>Go back</md-tooltip>
+      <md-icon class="material-icons">exit_to_app</md-icon>
+    </md-button>
+  </div>
+  <div class="widget-content">
+    <div class="full-height" ng-if="behaviorManager.loading" layout="column" layout-align="center center">
+      <p>Loading behaviors, please wait...</p>
+    </div>
+    <md-list ng-if="!behaviorManager.loading" class="full-width" id="behaviors">
+      <md-subheader>Installed Behaviors</md-subheader>
+      <md-list-item ng-repeat="behavior in behaviorManager.installedBehaviors" layout="row">
+        <p flex><span>{{ behavior.slice(5).split('/').join(':') }}</span></p>
+        <md-button ng-if="!behaviorManager.isRunning(behavior)"
+                   class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
+        <md-button ng-if="behaviorManager.isRunning(behavior)"
+                   class="md-secondary md-warn md-raised" ng-click="behaviorManager.stop(behavior)">Stop</md-button>
+      </md-list-item>
+      <md-subheader>Built-in Behaviors</md-subheader>
+      <md-list-item ng-repeat="behavior in behaviorManager.builtInBehaviors" layout="row">
+        <p flex><span>{{ behavior.slice(24).split('/').join(':') }}</span></p>
+        <md-button ng-if="!behaviorManager.isRunning(behavior)"
+                   class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
+        <md-button ng-if="behaviorManager.isRunning(behavior)"
+                   class="md-secondary md-warn md-raised" ng-click="behaviorManager.stop(behavior)">Stop</md-button>
+      </md-list-item>
+    </md-list>
+  </div>
+</div>

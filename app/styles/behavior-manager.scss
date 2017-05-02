@@ -1,0 +1,16 @@
+#behaviors {
+  padding: 0 !important;
+
+  md-list-item p span {
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  md-list-item button {
+    min-width: 40px !important;
+    min-height: 30px !important;
+    line-height: 30px !important;
+  }
+}
