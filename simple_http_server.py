@@ -2,9 +2,12 @@
 
 import SimpleHTTPServer
 import SocketServer
+import os
 
 HOST_NAME = "pepper.local"
 PORT_NUMBER = 8888
+
+os.chdir('/home/nao/web-tools')
 
 Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 
