@@ -11,6 +11,8 @@
 ```
 npm install
 bower install
+cd app/bower_components/CodeMirror/ && npm install
+cd ../acorn/ && npm install
 ```
 
 ## Development

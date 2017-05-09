@@ -3,7 +3,6 @@
 var gulp = require('gulp');
 var wiredep = require('wiredep').stream;
 var saveLicense = require('uglify-save-license');
-var lazypipe = require('lazypipe');
 var mainBowerFiles = require('main-bower-files');
 var del = require('del');
 //////////////////////////////////////////////////////////
@@ -27,7 +26,6 @@ var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var sass = require('gulp-sass');
 var size = require('gulp-size');
-var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var useref = require('gulp-useref');
 var gutil = require('gulp-util');
@@ -92,7 +90,7 @@ gulp.task('templates', function() {
 /**
  * HTML Task
  */
-gulp.task('html', ['inject', 'templates'], function() {
+gulp.task('html', ['inject', 'templates', 'tern-defs'], function() {
   var injectTemplates = gulp.src('.tmp/serve/app/templates.js', { read: false });
   var injectOptions = {
     starttag: '<!-- inject: templates -->',
@@ -102,13 +100,12 @@ gulp.task('html', ['inject', 'templates'], function() {
 
   return gulp.src('.tmp/serve/*.html')
     .pipe(inject(injectTemplates, injectOptions))
-    .pipe(useref({}, lazypipe().pipe(sourcemaps.init)))
+    .pipe(useref())
     .pipe(gulpif('**/*.{js,css}', rev()))
     .pipe(gulpif('**/*.js', ngAnnotate()))
     .pipe(gulpif('**/*.js', uglify({ preserveComments: saveLicense }))).on('error', errorHandler('Uglify'))
     .pipe(gulpif('**/*.css', cleanCSS({ processImport: false })))
     .pipe(revReplace())
-    .pipe(sourcemaps.write('maps'))
     .pipe(gulpif('*.html', htmlmin({ collapseWhitespace: true })))
     .pipe(gulp.dest('dist/'))
     .pipe(size({ title: 'dist/', showFiles: true }));
@@ -122,6 +119,14 @@ gulp.task('fonts', function() {
     .pipe(filter('**/*.{oft,eot,svg,ttf,woff,woff2}'))
     .pipe(flatten())
     .pipe(gulp.dest('dist/fonts/'));
+});
+
+/**
+ * Copy Tern Definition files
+ */
+gulp.task('tern-defs', function() {
+  return gulp.src('app/bower_components/tern/defs/*')
+    .pipe(gulp.dest('app/assets/tern-defs/'))
 });
 
 /**
@@ -140,7 +145,7 @@ gulp.task('other', function() {
 /**
  * Watch Task
  */
-gulp.task('watch', ['inject'], function() {
+gulp.task('watch', ['inject', 'tern-defs'], function() {
   gulp.watch(['app/**/*.html', 'app/**/*.js', 'app/**/*.scss', 'bower.json'], ['inject']);
 });
 
@@ -194,7 +199,7 @@ function errorHandler(title) {
 }
 
 function buildScripts() {
-  return gulp.src(['app/**/*.js', '!app/bower_components/**/*'])
+  return gulp.src(['app/**/*.js', '!app/bower_components/**/*', '!app/assets/lib/**/*'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(size());
@@ -216,9 +221,7 @@ function buildStyles() {
   return gulp.src('app/app.scss')
     .pipe(inject(injectFiles, injectOptions))
     .pipe(wiredep())
-    .pipe(sourcemaps.init())
     .pipe(sass({ outputStyle: 'expanded' })).on('error', errorHandler('Sass'))
     .pipe(autoprefixer()).on('error', errorHandler('Autoprefixer'))
-    .pipe(sourcemaps.write())
     .pipe(gulp.dest('.tmp/serve/app'));
 }

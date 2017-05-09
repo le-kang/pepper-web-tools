@@ -8,7 +8,7 @@
   /** @ngIngect */
   function HomeController($state) {
     var vm = this;
-    vm.tools = ['Joystick', 'Video Stream', 'Behavior Launcher'];
+    vm.tools = ['Joystick', 'Video Stream', 'Behavior Manager', 'Code Editor'];
     vm.start = start;
 
     function start(tool) {

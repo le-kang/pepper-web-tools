@@ -24,11 +24,46 @@
     "angular-ui-router": "^0.4.2",
     "nipplejs": "^0.6.7",
     "animate.css": "^3.5.2",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "acorn": "^5.0.3",
+    "CodeMirror": "^5.25.2",
+    "tern": "^0.21.0"
   },
   "overrides": {
     "nipplejs": {
       "main": "dist/nipplejs.js"
+    },
+    "acorn": {
+      "main": [
+        "dist/acorn.js",
+        "dist/acorn_loose.js",
+        "dist/walk.js"
+      ]
+    },
+    "CodeMirror": {
+      "main": [
+        "lib/codemirror.css",
+        "addon/lint/lint.css",
+        "addon/dialog/dialog.css",
+        "addon/hint/show-hint.css",
+        "addon/tern/tern.css",
+        "lib/codemirror.js",
+        "mode/javascript/javascript.js",
+        "addon/lint/lint.js",
+        "addon/lint/javascript-lint.js",
+        "addon/dialog/dialog.js",
+        "addon/hint/show-hint.js",
+        "addon/tern/tern.js"
+      ]
+    },
+    "tern": {
+      "main": [
+        "lib/signal.js",
+        "lib/tern.js",
+        "lib/def.js",
+        "lib/comments.js",
+        "lib/infer.js"
+      ]
     }
   }
 }

@@ -26,11 +26,17 @@
         controller: 'VideoStreamController',
         controllerAs: 'video'
       })
-      .state('behavior-launcher', {
-        url: '/behavior-launcher',
+      .state('behavior-manager', {
+        url: '/behavior-manager',
         templateUrl: 'views/behavior-manager.html',
         controller: 'BehaviorManagerController',
         controllerAs: 'behaviorManager'
+      })
+      .state('code-editor', {
+        url: '/code-editor',
+        templateUrl: 'views/code-editor.html',
+        controller: 'CodeEditorController',
+        controllerAs: 'editor'
       });
 
     $urlRouterProvider.otherwise('/');

@@ -13,7 +13,7 @@
     <md-list ng-if="!behaviorManager.loading" class="full-width" id="behaviors">
       <md-subheader>Installed Behaviors</md-subheader>
       <md-list-item ng-repeat="behavior in behaviorManager.installedBehaviors" layout="row">
-        <p flex><span>{{ behavior.slice(5).split('/').join(':') }}</span></p>
+        <p flex><span>{{ behavior.slice(5) }}</span></p>
         <md-button ng-if="!behaviorManager.isRunning(behavior)"
                    class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
         <md-button ng-if="behaviorManager.isRunning(behavior)"
@@ -21,7 +21,7 @@
       </md-list-item>
       <md-subheader>Built-in Behaviors</md-subheader>
       <md-list-item ng-repeat="behavior in behaviorManager.builtInBehaviors" layout="row">
-        <p flex><span>{{ behavior.slice(24).split('/').join(':') }}</span></p>
+        <p flex><span>{{ behavior.slice(24) }}</span></p>
         <md-button ng-if="!behaviorManager.isRunning(behavior)"
                    class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
         <md-button ng-if="behaviorManager.isRunning(behavior)"

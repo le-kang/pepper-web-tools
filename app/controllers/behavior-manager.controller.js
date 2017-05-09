@@ -19,25 +19,23 @@
     loadBehaviors();
 
     function loadBehaviors() {
-      qi.useService('ALBehaviorManager', function(behaviorManager) {
-        vm.behaviorManager = behaviorManager;
-        vm.behaviorManager.getBehaviorNames().then(function(behaviors) {
-          vm.installedBehaviors = _.filter(behaviors, function(behavior) {
-            // filter out of .lastUploadedChoregrapheBehavior
-            return behavior.startsWith('User/') && !behavior.startsWith('User/.');
-          });
-          vm.builtInBehaviors = _.filter(behaviors, function(behavior) {
-            return behavior.startsWith('System/animations/Stand/');
-          });
-          vm.loading = false;
-          $scope.$apply();
-          $interval(checkRunningBehaviors, 1000)
-        }, function(error) {
-          $log.error("An error occurred: ", error);
+      vm.behaviorManager = qi.ALBehaviorManager;
+      vm.behaviorManager.getBehaviorNames().then(function(behaviors) {
+        behaviors = _.uniq(behaviors);
+        vm.installedBehaviors = _.filter(behaviors, function(behavior) {
+          // filter out of .lastUploadedChoregrapheBehavior
+          return behavior.startsWith('User/') && !behavior.startsWith('User/.');
         });
-      }, function() {
+        vm.builtInBehaviors = _.filter(behaviors, function(behavior) {
+          return behavior.startsWith('System/animations/Stand/');
+        });
+        vm.loading = false;
+        $scope.$apply();
+        $interval(checkRunningBehaviors, 1000)
+      }, function(error) {
+        $log.error("An error occurred: ", error);
+      });
 
-      })
     }
 
     function play(behaviorName) {

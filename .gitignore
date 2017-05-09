@@ -17,7 +17,8 @@
 coverage
 node_modules
 npm-debug.log
-bower_components
+app/bower_components
+app/assets/tern-defs
 .tmp
 dist
-# Created by .ignore support plugin (hsz.mobi)
+

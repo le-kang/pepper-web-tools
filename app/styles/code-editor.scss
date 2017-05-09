@@ -1,0 +1,70 @@
+.input {
+  #code-editor {
+    display: none;
+
+    & + .CodeMirror {
+      height: 100%;
+    }
+  }
+}
+
+.output {
+  height: 200px;
+  background-color: #F0F0F0;
+  border-top: 1px solid #ddd;
+
+  .log {
+    height: 180px;
+    overflow-y: auto;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+
+    pre {
+      margin: 0;
+      padding: 0;
+      white-space: pre-wrap;
+    }
+
+    .sandbox-output-error {
+      color: red;
+    }
+
+    .sandbox-output-warn {
+      color: orange;
+    }
+
+    .sandbox-output-etc {
+      color: #1a1;
+      background: #dfd;
+      cursor: pointer;
+      border-radius: 5px;
+      padding: 0 1px;
+    }
+
+    .sandbox-output-prop {
+      color: #444;
+    }
+
+    .sandbox-output-etc-block {
+      display: inline-block;
+      vertical-align: top;
+
+      table {
+        border-collapse: collapse;
+
+        td {
+          vertical-align: top;
+          white-space: pre-wrap;
+
+          &:first-child {
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+<div class="widget md-whiteframe-2dp" flex>
+  <div class="widget-header" layout="row" layout-align="start center">
+    <h3 class="md-subhead" flex>Code Editor</h3>
+    <md-button aria-label="Run code" class="md-icon-button" ng-click="editor.runCode()">
+      <md-tooltip>Run code</md-tooltip>
+      <md-icon class="material-icons">play_arrow</md-icon>
+    </md-button>
+    <md-button aria-label="Go back" class="md-icon-button" ng-href="#">
+      <md-tooltip>Go back</md-tooltip>
+      <md-icon class="material-icons">exit_to_app</md-icon>
+    </md-button>
+  </div>
+  <div class="widget-content" layout="column">
+    <div class="input" flex>
+      <textarea id="code-editor" code-editor defs="ecmascript browser" code="editor.code" context="editor.context"></textarea>
+    </div>
+    <div class="output">
+      <div class="log" sandbox-output sandbox-output output="editor.output"></div>
+    </div>
+  </div>
+</div>
