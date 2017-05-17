@@ -12,7 +12,7 @@
         url: '/',
         templateUrl: 'views/home.html',
         controller: 'HomeController',
-        controllerAs: 'home'
+        controllerAs: 'pepper'
       })
       .state('joystick', {
         url: '/joystick',

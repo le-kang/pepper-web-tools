@@ -30,6 +30,9 @@
 
       joystick
         .on('start', function() {
+          if (!qi.ALMotion) {
+            return;
+          }
           $log.log('start');
           moveTimer = $interval(function() {
             if (!moving && distance > 50) {

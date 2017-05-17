@@ -1,0 +1,52 @@
+#header {
+  background-color: #fff;
+  color: #222;
+
+  img {
+    height: 50px;
+  }
+
+  h2 {
+    font-family: 'Kaushan Script', cursive;
+    font-weight: 900 !important;
+    font-size: 1.4em !important;
+  }
+
+  button {
+    margin: 0 !important;
+  }
+
+  .battery {
+    width: 80px;
+    border: 3px solid #333;
+    border-radius: 4px;
+    position: relative;
+    height: 40px;
+    margin-right: 10px;
+    padding: 4px;
+
+    .level {
+      background-color: #5cb85c;
+      height: 26px;
+
+      &.warn {
+        background-color: #eea236;
+      }
+
+      &.danger {
+        background-color: #d43f3a;
+      }
+    }
+
+    &:after {
+      content: " ";
+      position: absolute;
+      top: 8px;
+      right: -10px;
+      height: 18px;
+      border: 3px solid #333;
+      border-radius: 4px;
+      width: 10px;
+    }
+  }
+}

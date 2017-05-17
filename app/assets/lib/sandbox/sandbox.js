@@ -44,6 +44,7 @@
       frame.removeEventListener("load", loaded);
       self.win = frame.contentWindow;
       self.setupEnv();
+
       if (options.context && typeof options.context == "object") {
         for (var prop in options.context) {
           self.win[prop] = options.context[prop];

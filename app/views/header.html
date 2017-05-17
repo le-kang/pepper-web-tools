@@ -1,0 +1,23 @@
+<div class="md-toolbar-tools container" layout="row">
+  <img ng-src="assets/images/pepper.png" alt="Pepper Web Tools" aria-label="Pepper Web Tools">
+  <h2 hide-xs flex><a href="#">Pepper Web Tools</a></h2>
+  <div class="battery" title="Battery level: {{ header.batteryLevel }}%">
+    <div class="level" ng-style="{width: header.batteryLevel + '%'}"
+         ng-class="{warn: header.batteryLevel < 50, danger: header.batteryLevel < 20}"></div>
+  </div>
+  <md-menu md-position-mode="target-right target" md-offset="-10 20">
+    <md-button aria-label="Open menu" class="md-icon-button md-primary" ng-click="$mdMenu.open($event)">
+      <md-icon class="material-icons">menu</md-icon>
+    </md-button>
+    <md-menu-content width="4" >
+      <md-menu-item ng-repeat="item in header.tools">
+        <md-button ng-href="{{ '#!/' + item.toLowerCase().split(' ').join('-') }}">
+          <div layout="row" flex>
+            <md-icon class="material-icons">launch</md-icon>
+            <p flex>{{ item }}</p>
+          </div>
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+</div>

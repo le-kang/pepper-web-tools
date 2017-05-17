@@ -1,13 +1,118 @@
-<div class="widget md-whiteframe-2dp" flex>
-  <div class="widget-header" layout="row" layout-align="start center">
-    <h3 class="md-subhead" flex>Tool List</h3>
-  </div>
-  <div class="widget-content">
-    <md-list>
-      <md-list-item ng-repeat="tool in home.tools" ng-click="home.start(tool)">
-        <md-icon class="material-icons">launch</md-icon>
-        <p> {{ tool }} </p>
-      </md-list-item>
-    </md-list>
+<div class="section md-whiteframe-2dp" flex layout="column">
+  <div id="home" class="section-content" flex layout="column">
+    <md-tabs md-border-bottom flex>
+      <md-tab label="widgets">
+        <md-content flex layout="column" layout-gt-sm="row">
+          <div flex layout="column" layout-align="center center" ng-if="!pepper.widgets.initialized">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+          </div>
+          <div flex-gt-sm="50" ng-if="pepper.widgets.initialized">
+            <md-card>
+              <md-card-title layout="row">
+                <span class="md-headline" flex>Tablet</span>
+              </md-card-title>
+              <md-divider></md-divider>
+              <md-card-content>
+                <md-slider-container>
+                  <md-icon class="material-icons">brightness_medium</md-icon>
+                  <md-slider flex min="1" max="100" step="1" aria-label="Tablet brightness" md-discrete
+                             id="tablet-brightness" ng-model="pepper.widgets.tablet.brightness"
+                             ng-change="pepper.setBrightness()"></md-slider>
+                </md-slider-container>
+                <md-input-container md-no-float class="md-block">
+                  <md-icon class="material-icons">web</md-icon>
+                  <input type="text" placeholder="Website URL" ng-model="pepper.widgets.tablet.url"
+                         ng-keyup="pepper.showWebsite($event)">
+                </md-input-container>
+                <div layout="column" layout-gt-sm="row">
+                  <md-button class="md-raised md-primary" aria-label="Show logos" ng-click="pepper.showLogos()">
+                    Show UTS & Magic Lab Logos
+                  </md-button>
+                  <md-button class="md-raised md-warn" aria-label="Hide web view" ng-click="pepper.hideWebView()">
+                    Hide web view
+                  </md-button>
+                </div>
+              </md-card-content>
+            </md-card>
+            <md-card>
+              <md-card-title layout="row">
+                <span class="md-headline" flex>Speech</span>
+              </md-card-title>
+              <md-divider></md-divider>
+              <md-card-content>
+                <md-slider-container>
+                  <md-icon class="material-icons">volume_up</md-icon>
+                  <md-slider flex min="1" max="100" step="1" aria-label="Speech volume" md-discrete id="speech-volume"
+                             ng-model="pepper.widgets.speech.volume" ng-change="pepper.setVolume()"></md-slider>
+                </md-slider-container>
+                <md-input-container md-no-float class="md-block">
+                  <md-icon class="material-icons">message</md-icon>
+                  <input type="text" placeholder="Say..." ng-model="pepper.widgets.speech.words" ng-keyup="pepper.say($event)">
+                </md-input-container>
+              </md-card-content>
+            </md-card>
+          </div>
+          <div flex-gt-sm="50" ng-if="pepper.widgets.initialized">
+            <md-card>
+              <md-card-title layout="row">
+                <span class="md-headline" flex>Basic Awareness</span>
+                <md-switch aria-label="Basic awareness" ng-model="pepper.widgets.basicAwareness.isEnabled"
+                           ng-change="pepper.setBasicAwareness()"></md-switch>
+              </md-card-title>
+              <md-divider></md-divider>
+              <md-card-content>
+                <h3>Stimulus detection:</h3>
+                <div layout="row" layout-wrap>
+                  <md-switch aria-label="Stimulus: People" flex="50" flex-xs="100"
+                             ng-model="pepper.widgets.basicAwareness.stimulus.People"
+                             ng-change="pepper.setStimulusDetectionEnabled('People')">People</md-switch>
+                  <md-switch aria-label="Stimulus: Touch" flex="50" flex-xs="100"
+                             ng-model="pepper.widgets.basicAwareness.stimulus.Touch"
+                             ng-change="pepper.setStimulusDetectionEnabled('Touch')">Touch</md-switch>
+                  <md-switch aria-label="Stimulus: TabletTouch" flex="50" flex-xs="100"
+                             ng-model="pepper.widgets.basicAwareness.stimulus.TabletTouch"
+                             ng-change="pepper.setStimulusDetectionEnabled('TabletTouch')">TabletTouch</md-switch>
+                  <md-switch aria-label="Stimulus: Sound" flex="50" flex-xs="100"
+                             ng-model="pepper.widgets.basicAwareness.stimulus.Sound"
+                             ng-change="pepper.setStimulusDetectionEnabled('Sound')">Sound</md-switch>
+                  <md-switch aria-label="Stimulus: Movement" flex="50" flex-xs="100"
+                             ng-model="pepper.widgets.basicAwareness.stimulus.Movement"
+                             ng-change="pepper.setStimulusDetectionEnabled('Movement')">Movement</md-switch>
+                  <md-switch aria-label="Stimulus: NavigationMotion" flex="50" flex-xs="100"
+                             ng-model="pepper.widgets.basicAwareness.stimulus.NavigationMotion"
+                             ng-change="pepper.setStimulusDetectionEnabled('NavigationMotion')">NavigationMotion</md-switch>
+                </div>
+                <h3>Tracking mode:</h3>
+                <md-radio-group layout="row" layout-wrap ng-model="pepper.widgets.basicAwareness.trackingMode"
+                                ng-change="pepper.setTrackingMode()">
+                  <md-radio-button value="Head" flex="50" flex-xs="100">Head</md-radio-button>
+                  <md-radio-button value="BodyRotation" flex="50" flex-xs="100">BodyRotation</md-radio-button>
+                  <md-radio-button value="WholeBody" flex="50" flex-xs="100">WholeBody</md-radio-button>
+                  <md-radio-button value="MoveContextually" flex="50" flex-xs="100">MoveContextually</md-radio-button>
+                </md-radio-group>
+                <h3>Engagement modes:</h3>
+                <md-radio-group layout="row" layout-wrap ng-model="pepper.widgets.basicAwareness.engagementMode"
+                                ng-change="pepper.setEngagementMode()">
+                  <md-radio-button value="Unengaged" flex="33" flex-xs="100">Unengaged</md-radio-button>
+                  <md-radio-button value="FullyEngaged" flex="33" flex-xs="100">FullyEngaged</md-radio-button>
+                  <md-radio-button value="SemiEngaged" flex="33" flex-xs="100">SemiEngaged</md-radio-button>
+                </md-radio-group>
+              </md-card-content>
+            </md-card>
+          </div>
+        </md-content>
+      </md-tab>
+      <md-tab label="tools">
+        <md-content flex>
+          <md-list>
+            <md-list-item ng-repeat="tool in pepper.tools" ng-click="pepper.start(tool)">
+              <md-icon class="material-icons">launch</md-icon>
+              <p> {{ tool }} </p>
+              <md-divider></md-divider>
+            </md-list-item>
+          </md-list>
+        </md-content>
+      </md-tab>
+    </md-tabs>
   </div>
 </div>

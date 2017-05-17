@@ -1,21 +1,64 @@
-<div class="widget md-whiteframe-2dp" flex>
-  <div class="widget-header" layout="row" layout-align="start center">
+<div class="section md-whiteframe-2dp" flex layout="column">
+  <div class="section-header" layout="row" layout-align="start center">
     <h3 class="md-subhead" flex>Code Editor</h3>
-    <md-button aria-label="Run code" class="md-icon-button" ng-click="editor.runCode()">
-      <md-tooltip>Run code</md-tooltip>
-      <md-icon class="material-icons">play_arrow</md-icon>
-    </md-button>
     <md-button aria-label="Go back" class="md-icon-button" ng-href="#">
       <md-tooltip>Go back</md-tooltip>
       <md-icon class="material-icons">exit_to_app</md-icon>
     </md-button>
   </div>
-  <div class="widget-content" layout="column">
-    <div class="input" flex>
-      <textarea id="code-editor" code-editor defs="ecmascript browser" code="editor.code" context="editor.context"></textarea>
+  <div class="section-content" flex layout="column">
+    <md-tabs md-border-bottom flex id="work-area" md-selected="editor.focusedTab">
+      <md-tab label="Editor" layout="column">
+        <md-content flex>
+          <textarea id="code-editor" code-editor defs="ecmascript browser qi underscore" code="editor.code"></textarea>
+        </md-content>
+      </md-tab>
+      <md-tab label="Scripts" layout="column">
+        <md-content flex layout="column">
+          <div flex ng-if="!editor.scripts.length" layout="column" layout-align="center center">
+            <p>You don't have any saved script</p>
+          </div>
+          <md-list flex ng-if="editor.scripts.length" id="scripts">
+            <md-list-item class="md-2-line" ng-repeat="script in editor.scripts">
+              <div class="md-list-item-text">
+                <h3>{{ script.name }}</h3>
+                <p>Last modified at: {{ script.time }}</p>
+              </div>
+              <md-button aria-label="Open script" class="md-secondary md-icon-button"
+                         ng-if="script.name != editor.currentScript"
+                         ng-click="editor.loadScript(script.name, script.code)">
+                <md-tooltip>Open</md-tooltip>
+                <md-icon class="material-icons">content_copy</md-icon>
+              </md-button>
+              <md-button aria-label="Delete script" class="md-secondary md-icon-button"
+                         ng-if="script.name != editor.currentScript"
+                         ng-click="editor.deleteScript($event, script.name)">
+                <md-tooltip>Delete</md-tooltip>
+                <md-icon class="material-icons">delete_forever</md-icon>
+              </md-button>
+              <md-button class="md-secondary" ng-if="script.name == editor.currentScript"
+                         ng-disabled="script.name == editor.currentScript">Editing</md-button>
+              <md-divider></md-divider>
+            </md-list-item>
+          </md-list>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+    <div id="editor-buttons" layout="row">
+      <div class="help" flex layout="row">
+        <md-button aria-label="Help" class="md-icon-button editor-help" ng-click="editor.showHelp($event)">
+          <md-icon class="material-icons">help</md-icon>
+        </md-button>
+        <p hide-xs flex ng-if="editor.currentScript">You are editing script "<strong>{{ editor.currentScript }}</strong>"</p>
+      </div>
+      <div class="actions">
+        <md-button class="md-raised" ng-if="editor.currentScript && editor.focusedTab == 0" ng-click="editor.newScript($event)">New Script</md-button>
+        <md-button class="md-raised" ng-disabled="!editor.code" ng-click="editor.saveScript()">Save Script</md-button>
+        <md-button class="md-raised" ng-disabled="!editor.code" ng-click="editor.runCode()">Run</md-button>
+      </div>
     </div>
-    <div class="output">
-      <div class="log" sandbox-output sandbox-output output="editor.output"></div>
+    <div id="output">
+      <div id="log" sandbox-output sandbox-output output="editor.output"></div>
     </div>
   </div>
 </div>

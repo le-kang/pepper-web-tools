@@ -1,5 +1,21 @@
+#behaviors-filter {
+  max-width: 400px;
+
+  md-input-container {
+    margin: 8px !important;
+
+    .md-errors-spacer {
+      display: none;
+    }
+  }
+
+  button {
+    margin: 0 0 -8px 0;
+  }
+}
+
 #behaviors {
-  padding: 0 !important;
+  background-color: #fff;
 
   md-list-item p span {
     text-overflow: ellipsis;

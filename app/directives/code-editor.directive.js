@@ -11,8 +11,7 @@
       restrict: 'A',
       scope: {
         defs: '@',
-        code: '=',
-        context: '='
+        code: '='
       },
       link: link
     };
@@ -33,18 +32,31 @@
         });
 
         loadTernDefinitions(scope.defs, function(defs) {
-          defs.push(scope.context);
           ternServer = new CodeMirror.TernServer({
             defs: defs,
             ecmaVersion: 5
           });
           editor.setOption('extraKeys', {
-            'Alt-Space': function(cm) { ternServer.complete(cm); }
-          })
+            'Tab': function(cm) { ternServer.complete(cm); },
+            'Ctrl-I': function(cm) { ternServer.showType(cm); },
+            'Ctrl-O': function(cm) { ternServer.showDocs(cm); },
+            'Alt-.': function(cm) { ternServer.jumpToDef(cm); },
+            'Alt-,': function(cm) { ternServer.jumpBack(cm); },
+            'Ctrl-Q': function(cm) { ternServer.rename(cm); },
+            'Ctrl-.': function(cm) { ternServer.selectName(cm); }
+          });
         });
 
         editor.on('change', function(cm) {
           scope.code = cm.getValue();
+        });
+
+        editor.on("cursorActivity", function(cm) {
+          ternServer.updateArgHints(cm);
+        });
+
+        scope.$on('set-code', function(e, code) {
+          editor.setValue(code);
         });
       }, 1000);
     }
@@ -61,7 +73,7 @@
         promises.push(promise);
       });
 
-      return $q.all(promises).then(function() {
+      $q.all(promises).then(function() {
         resolve(defs);
       }, function(error) {
         $log.error("An error occurred: ", error);

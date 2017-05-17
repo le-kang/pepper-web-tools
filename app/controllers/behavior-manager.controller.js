@@ -11,7 +11,9 @@
     vm.loading = true;
     vm.installedBehaviors = [];
     vm.builtInBehaviors = [];
+    vm.filter = '';
     vm.runningBehaviors = [];
+    vm.clearFilter = clearFilter;
     vm.play = play;
     vm.stop = stop;
     vm.isRunning = isRunning;
@@ -19,8 +21,10 @@
     loadBehaviors();
 
     function loadBehaviors() {
-      vm.behaviorManager = qi.ALBehaviorManager;
-      vm.behaviorManager.getBehaviorNames().then(function(behaviors) {
+      if (!qi.ALBehaviorManager) {
+        return;
+      }
+      qi.ALBehaviorManager.getBehaviorNames().then(function(behaviors) {
         behaviors = _.uniq(behaviors);
         vm.installedBehaviors = _.filter(behaviors, function(behavior) {
           // filter out of .lastUploadedChoregrapheBehavior
@@ -38,16 +42,20 @@
 
     }
 
+    function clearFilter() {
+      vm.filter = '';
+    }
+
     function play(behaviorName) {
       if (!isRunning(behaviorName)) {
         vm.runningBehaviors.push(behaviorName);
-        vm.behaviorManager.runBehavior(behaviorName);
+        qi.ALBehaviorManager.runBehavior(behaviorName);
       }
     }
 
     function stop(behaviorName) {
       if (isRunning(behaviorName)) {
-        vm.behaviorManager.stopBehavior(behaviorName);
+        qi.ALBehaviorManager.stopBehavior(behaviorName);
       }
     }
 
@@ -56,7 +64,7 @@
     }
 
     function checkRunningBehaviors() {
-      vm.behaviorManager.getRunningBehaviors().then(function(behaviors) {
+      qi.ALBehaviorManager.getRunningBehaviors().then(function(behaviors) {
         vm.runningBehaviors = behaviors;
         $scope.$apply();
       }, function(error) {

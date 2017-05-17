@@ -7,6 +7,7 @@
       'ngAnimate',
       'ngMessages',
       'ngSanitize',
-      'ui.router'
+      'ui.router',
+      'LocalStorageModule'
     ])
 })();

@@ -28,27 +28,20 @@
   </p>
   <![endif]-->
 
-  <md-toolbar id="header" class="md-whiteframe-1dp">
-    <div class="md-toolbar-tools container" layout="row">
-      <h2 flex><a href="#">Pepper Web Tools</a></h2>
+  <md-toolbar id="header" class="md-whiteframe-1dp" ng-cloak ng-include="'views/header.html'"
+              ng-controller="HeaderController as header"></md-toolbar>
+  <md-content id="content" flex layout="column" ng-cloak>
+    <div class="container" flex layout="column">
+      <div ui-view id="main" flex layout="column" layout-margin></div>
+      <p id="copyright">&copy; The Magic Lab 2017</p>
     </div>
-  </md-toolbar>
-  <md-content id="content" flex>
-    <div ui-view class="container" layout="row" layout-xs="column" layout-margin></div>
   </md-content>
-  <div id="footer">
-    <div class="container">
-      <p>&copy; The Magic Lab 2017</p>
-    </div>
-  </div>
 
   <!-- build:js(app) scripts/vendor.js -->
   <!-- bower:js -->
   <!-- run `gulp inject` to automatically populate bower script dependencies -->
   <!-- endbower -->
   <!-- endbuild -->
-
-  <script src="//ajax.aspnetcdn.com/ajax/jshint/r07/jshint.js"></script>
 
   <!-- build:js({.tmp/serve,app}) scripts/app.js -->
   <!-- inject:js -->

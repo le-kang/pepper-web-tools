@@ -29,6 +29,7 @@ var size = require('gulp-size');
 var uglify = require('gulp-uglify');
 var useref = require('gulp-useref');
 var gutil = require('gulp-util');
+var run = require('gulp-run');
 //////////////////////////////////////////////////////////
 
 
@@ -90,7 +91,7 @@ gulp.task('templates', function() {
 /**
  * HTML Task
  */
-gulp.task('html', ['inject', 'templates', 'tern-defs'], function() {
+gulp.task('html', ['inject', 'templates'], function() {
   var injectTemplates = gulp.src('.tmp/serve/app/templates.js', { read: false });
   var injectOptions = {
     starttag: '<!-- inject: templates -->',
@@ -122,14 +123,6 @@ gulp.task('fonts', function() {
 });
 
 /**
- * Copy Tern Definition files
- */
-gulp.task('tern-defs', function() {
-  return gulp.src('app/bower_components/tern/defs/*')
-    .pipe(gulp.dest('app/assets/tern-defs/'))
-});
-
-/**
  * Other Task
  */
 gulp.task('other', function() {
@@ -145,7 +138,7 @@ gulp.task('other', function() {
 /**
  * Watch Task
  */
-gulp.task('watch', ['inject', 'tern-defs'], function() {
+gulp.task('watch', ['inject'], function() {
   gulp.watch(['app/**/*.html', 'app/**/*.js', 'app/**/*.scss', 'bower.json'], ['inject']);
 });
 

@@ -6,161 +6,73 @@
     .factory('qi', qi);
 
   /** @ngInject **/
-  function qi(QiSession, _, $window, $rootScope, $interval, $log) {
-    var moduleList = [
-      'ServiceDirectory',
-      'LogManager',
-      'PackageManager',
-      'ALServiceManager',
-      'ALCloudToken',
-      'ALFileManager',
-      'ALMemory',
-      'ALLogger',
-      'ALPreferences',
-      'ALConnectionManager',
-      'ALPreferenceManager',
-      'ALFrameManager',
-      'ALDebug',
-      'ALNotificationManager',
-      'DCM',
-      'ALTabletService',
-      'ALResourceManager',
-      'ALRobotModel',
-      'ALTactileGesture',
-      'SBREEMCommService',
-      'ALDiagnosis',
-      'SolitaryManagerService',
-      'FannyPoseService',
-      'ALSonar',
-      'ALFsr',
-      'ALSensors',
-      'ACSPresence',
-      'ALBodyTemperature',
-      'SBRYTPCommService',
-      'FourSeasonsService',
-      'KpiLib',
-      'ACSMessage',
-      'ALMotion',
-      'ALTouch',
-      'ALRobotPosture',
-      'ALMotionRecorder',
-      'ALLeds',
-      'ALWorldRepresentation',
-      'ALVideoDevice',
-      'ALColorBlobDetection',
-      'ALRedBallDetection',
-      'ALFaceDetection',
-      'ALVisionRecognition',
-      'ALLandMarkDetection',
-      'ALDarknessDetection',
-      'ALBacklightingDetection',
-      'ALPhotoCapture',
-      'ALVideoRecorder',
-      'ALVisualCompass',
-      'ALVisualSpaceHistory',
-      'ALSystem',
-      'ALKnowledgeManager',
-      'ALKnowledge',
-      'ALPhotoStorage',
-      'ALModularity',
-      'AudioFilterLoader',
-      'ALAudioDevice',
-      'ALAudioRecorder',
-      'ALAudioPlayer',
-      'ALTextToSpeech',
-      'ALSpeechRecognition',
-      'ALVoiceEmotionAnalysis',
-      'ALBattery',
-      'ALChestButton',
-      'ALMecaLogger',
-      'ALPythonBridge',
-      'ALLauncher',
-      'ALLaser',
-      'ALBehaviorManager',
-      'ALAnimationPlayer',
-      'ALSpeakingMovement',
-      'ALAnimatedSpeech',
-      'ALStore',
-      'ALMemoryWatcher',
-      'ALNavigation',
-      'ALTelepathe',
-      'ALTracker',
-      'ALLocalization',
-      'ALPanoramaCompass',
-      'ALRobotHealthMonitor',
-      'ALSegmentation3D',
-      'ALBarcodeReader',
-      'ALMovementDetection',
-      'ALPeoplePerception',
-      'ALEngagementZones',
-      'ALSittingPeopleDetection',
-      'ALGazeAnalysis',
-      'ALWavingDetection',
-      'ALFaceCharacteristics',
-      'ALCloseObjectDetection',
-      'ALSoundDetection',
-      'ALSoundLocalization',
-      'ALAudioSourceLocalization',
-      'ALUserInfo',
-      'ALUserSession',
-      'ALThinkingExpression',
-      'ALBasicAwareness',
-      'OTDialogContext',
-      'ALAutonomousBlinking',
-      'ALBackgroundMovement',
-      'ALListeningMovement',
-      'ALAutonomousMoves',
-      'ALExpressionWatcher',
-      'ALSignsAndFeedback',
-      'ALAutonomousLife',
-      'ALGoToSleep',
-      'ALDialog',
-      'ALPodDetection',
-      'QuietModeService',
-      'ALRecharge',
-      'ALRALManagerModule',
-      'ALMood',
-      'OTDialogInterface',
-      'OTDialogInterface_sub',
-      'PyPepperServer',
-      'SBRRHCCommService',
-      'SBRCGMYCommService'
-    ];
-    var modules = {};
+  function qi(pepperAddress, QiSession, _, $window, $rootScope, $http, $interval, $log, $mdDialog, $mdToast) {
+    var serviceDict = {};
+    var services = {};
     var loaded = 0;
-    var totalModules = moduleList.length;
+    var totalModules = 0;
+    var progress = null;
 
-    var progress = $interval(function() {
-      $rootScope.$emit('qi-loading-progress', ((loaded/totalModules)*100).toFixed(2));
-    }, 100);
-
-    QiSession(function(session) {
-      _.forEach(moduleList, function(module) {
-        session.service(module).then(function(m) {
-          if (_.has(m, 'getMethodList')) {
-            m.getMethodList().then(function(list) {
-              for(var property in m) {
-                if (_.indexOf(list, property) == -1) {
-                  _.unset(m, property);
-                }
-              }
-              modules[module] = m;
-            });
-          }
-          loaded++;
-          if (loaded == totalModules) {
-            $rootScope.$emit('qi-loading-progress', ((loaded/totalModules)*100).toFixed(2));
-            $rootScope.$emit('qi-loaded');
-            $interval.cancel(progress);
-          }
-        }, function(error) {
-          $log.error('An error occurred:', error)
-        })
+    $http
+      .get('assets/tern-defs/qi.json')
+      .then(function(res) {
+        serviceDict = res.data.qi;
+        totalModules = _.keys(serviceDict).length;
+        initQiServices();
+        progress = $interval(function() {
+          $rootScope.$emit('qi-loading-progress', ((loaded/totalModules)*100).toFixed(2));
+        }, 100);
       });
-    }, function() {
-      $window.location.reload();
-    }, '138.25.61.104:80');
 
-    return modules;
+    function initQiServices() {
+      QiSession(function(session) {
+        _.forEach(_.keys(serviceDict), function(serviceName) {
+          session.service(serviceName).then(function(service) {
+            for (var property in service) {
+              var methodList = _.keys(serviceDict[serviceName]);
+              if (_.indexOf(methodList, property) === -1) {
+                _.unset(service, property);
+              }
+            }
+            services[serviceName] = service;
+            loaded++;
+            if (loaded === totalModules) {
+              $rootScope.$emit('qi-loading-progress', ((loaded/totalModules)*100).toFixed(2));
+              $rootScope.$emit('qi-loaded');
+              $interval.cancel(progress);
+            }
+          }, function(error) {
+            $log.error('An error occurred:', error);
+            loaded++;
+            if (loaded === totalModules) {
+              $rootScope.$emit('qi-loading-progress', ((loaded/totalModules)*100).toFixed(2));
+              $rootScope.$emit('qi-loaded');
+              $interval.cancel(progress);
+            }
+          })
+        });
+      }, function() {
+        services = {};
+        var confirm = $mdDialog.confirm()
+          .title('Connection to pepper lost!')
+          .textContent('Please refresh this page to reconnect to the robot.')
+          .ok('Refresh now')
+          .cancel('Wait, I need to save my work!');
+        $mdDialog.show(confirm).then(function() {
+          $window.location.reload();
+        }, function() {
+          var toast = $mdToast.simple()
+            .textContent('No connection to pepper. Refresh page to reconnect.')
+            .action('Refresh')
+            .highlightAction(true)
+            .hideDelay(false);
+          $mdToast.show(toast).then(function() {
+            $window.location.reload();
+          });
+        });
+      }, pepperAddress + ':80');
+    }
+
+    return services;
   }
 })();

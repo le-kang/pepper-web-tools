@@ -1,14 +1,39 @@
-<div class="widget md-whiteframe-2dp" flex>
-  <div class="widget-header" layout="row" layout-align="start center">
+<div class="section md-whiteframe-2dp" flex layout="column">
+  <div class="section-header" layout="row" layout-align="start center">
     <h3 class="md-subhead" flex>Video Stream</h3>
     <md-button aria-label="Go back" class="md-icon-button" ng-href="#">
       <md-tooltip>Go back</md-tooltip>
       <md-icon class="material-icons">exit_to_app</md-icon>
     </md-button>
   </div>
-  <div class="widget-content">
-    <div id="video-stream-container" layout="column" layout-align="center center">
-      <img id="video-stream" ng-src="http://138.25.61.104:9000">
+  <div class="section-content" flex>
+    <div class="video-options" layout="row" layout-align="start center">
+      <md-checkbox ng-model="video.showTop">Top</md-checkbox>
+      <md-checkbox ng-model="video.showBottom">Bottom</md-checkbox>
+    </div>
+    <div class="video-stream-container" layout="row" layout-xs="column" layout-wrap>
+      <div flex layout="row" layout-align="center center" ng-if="video.showTop">
+        <img class="video-stream md-whiteframe-2dp"
+             ng-src="http://{{ video.pepperAddress }}:8080/stream?topic=/pepper/camera/front/image_raw">
+      </div>
+      <div flex layout="row" layout-align="center center" ng-if="video.showBottom">
+        <img class="video-stream md-whiteframe-2dp"
+             ng-src="http://{{ video.pepperAddress }}:8080/stream?topic=/pepper/camera/bottom/image_raw">
+      </div>
+    </div>
+    <div class="arrow-key-container">
+      <div class="arrow-key up" data-key="38"
+           ng-class="{press: video.headMovingDirection == 'up'}"
+           ng-mousedown="video.moveHead('up')" ng-mouseup="video.stopMovingHead()"></div><br>
+      <div class="arrow-key left" data-key="37"
+           ng-class="{press: video.headMovingDirection == 'left'}"
+           ng-mousedown="video.moveHead('left')" ng-mouseup="video.stopMovingHead()"></div>
+      <div class="arrow-key down" data-key="40"
+           ng-class="{press: video.headMovingDirection == 'down'}"
+           ng-mousedown="video.moveHead('down')" ng-mouseup="video.stopMovingHead()"></div>
+      <div class="arrow-key right" data-key="39"
+           ng-class="{press: video.headMovingDirection == 'right'}"
+           ng-mousedown="video.moveHead('right')" ng-mouseup="video.stopMovingHead()"></div>
     </div>
   </div>
 </div>

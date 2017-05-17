@@ -21,35 +21,8 @@ html, body {
   padding: 0.2em 0;
 }
 
-#header {
-  background-color: #fff;
-  color: #222;
-
-  h2 {
-    font-family: 'Kaushan Script', cursive;
-    font-weight: 900 !important;
-    font-size: 1.4em !important;
-  }
-}
-
-#content {
-  background: url('/assets/images/background.jpg') repeat 0 0;
-  margin-bottom: 25px;
-}
-
-
-#footer {
-  background-color: transparent;
-  color: #222;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 25px;
-
-  p {
-    font-size: 14px;
-    margin: 0 8px 10px 8px;
-  }
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }
 
 .container {
@@ -76,32 +49,64 @@ html, body {
   }
 }
 
-.material-icons {
-  margin-right: 16px !important;
-}
+#content {
+  background: url('/assets/images/background.jpg') repeat 0 0;
 
-.widget {
-  animation: zoomIn 1s;
-  background-color: #ffffff;
+  #main {
+    background: transparent;
 
-  .widget-header {
-    border-bottom: 1px solid #eee;
-    height: 50px;
+    .section {
+      animation: zoomIn 1s;
+      background-color: #ffffff;
 
-    .md-subhead {
-      padding: 12px;
-      font-weight: 500;
-      margin: 0;
+      .section-header {
+        border-bottom: 1px solid #eee;
+        height: 50px;
+
+        .md-subhead {
+          padding: 12px;
+          font-weight: 500;
+          margin: 0;
+        }
+      }
+
+      .section-content {
+        box-sizing: border-box;
+        position: relative;
+        overflow-x: hidden;
+      }
     }
   }
 
-  .widget-content {
-    min-height: 300px;
-    box-sizing: border-box;
-    position: relative;
-    overflow-x: hidden;
-    height: calc(100vh - 200px) !important;
+  #copyright {
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0 16px 8px;
   }
+}
+
+md-list {
+  padding: 0 !important;
+}
+
+// fix safari 100% height bug for md-tab component
+// http://stackoverflow.com/questions/33636796/chrome-safari-not-filling-100-height-of-flex-parent
+md-tab-content > div {
+  display: flex !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+  -webkit-flex-direction: column !important;
+  flex-direction: column !important;
+}
+
+md-dialog button {
+  word-wrap: normal !important;
+  white-space: normal !important;
+  line-height: normal !important;
+}
+
+.material-icons {
+  margin-right: 16px !important;
 }
 
 .animate-wrapper {
@@ -111,14 +116,6 @@ html, body {
     width: 100%;
     height: 100%;
   }
-}
-
-.full-width {
-  width: 100%;
-}
-
-.full-height {
-  height: 100%;
 }
 
 // injector

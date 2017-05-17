@@ -1,24 +1,39 @@
-.input {
-  #code-editor {
-    display: none;
+#code-editor {
+  display: none;
 
-    & + .CodeMirror {
-      height: 100%;
-    }
+  & + .CodeMirror {
+    height: 100%;
+    min-height: 300px;
   }
 }
 
-.output {
-  height: 200px;
-  background-color: #F0F0F0;
+#editor-buttons {
   border-top: 1px solid #ddd;
+  background-color: #F0F0F0;
+  padding-bottom: 5px;
 
-  .log {
-    height: 180px;
+  .help p {
+    font-size: 13px;
+    margin: 10px 0;
+  }
+
+  button {
+    min-width: 40px !important;
+    min-height: 30px !important;
+    line-height: 30px !important;
+  }
+}
+
+#output {
+  height: 120px;
+  background-color: #F0F0F0;
+
+  #log {
+    height: 110px;
     overflow-y: auto;
     border: 1px solid #000000;
     border-radius: 10px;
-    margin: 10px;
+    margin: 0 10px 10px;
     padding: 10px;
     background-color: #ffffff;
     box-sizing: border-box;
@@ -66,5 +81,38 @@
         }
       }
     }
+  }
+}
+
+.editor-help-panel {
+  font-size: 12px;
+  background: white;
+  border-radius: 4px;
+  width: 300px;
+
+  &:not(.md-panel) {
+    padding: 6px;
+  }
+
+  dl {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  dt, dd {
+    float: left;
+    padding: 0;
+    margin: 0
+  }
+
+  dt {
+    width: 20%;
+    text-decoration: underline;
+    font-style: italic;
+  }
+
+  dd {
+    width: 80%;
   }
 }

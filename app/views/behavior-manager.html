@@ -1,32 +1,49 @@
-<div class="widget md-whiteframe-2dp" flex>
-  <div class="widget-header" layout="row" layout-align="start center">
+<div class="section md-whiteframe-2dp" flex layout="column">
+  <div class="section-header" layout="row" layout-align="start center">
     <h3 class="md-subhead" flex>Behavior Manager</h3>
     <md-button aria-label="Go back" class="md-icon-button" ng-href="#">
       <md-tooltip>Go back</md-tooltip>
       <md-icon class="material-icons">exit_to_app</md-icon>
     </md-button>
   </div>
-  <div class="widget-content">
-    <div class="full-height" ng-if="behaviorManager.loading" layout="column" layout-align="center center">
+  <div class="section-content" flex layout="column">
+    <div flex ng-if="behaviorManager.loading" layout="column" layout-align="center center">
       <p>Loading behaviors, please wait...</p>
     </div>
-    <md-list ng-if="!behaviorManager.loading" class="full-width" id="behaviors">
-      <md-subheader>Installed Behaviors</md-subheader>
-      <md-list-item ng-repeat="behavior in behaviorManager.installedBehaviors" layout="row">
-        <p flex><span>{{ behavior.slice(5) }}</span></p>
-        <md-button ng-if="!behaviorManager.isRunning(behavior)"
-                   class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
-        <md-button ng-if="behaviorManager.isRunning(behavior)"
-                   class="md-secondary md-warn md-raised" ng-click="behaviorManager.stop(behavior)">Stop</md-button>
-      </md-list-item>
-      <md-subheader>Built-in Behaviors</md-subheader>
-      <md-list-item ng-repeat="behavior in behaviorManager.builtInBehaviors" layout="row">
-        <p flex><span>{{ behavior.slice(24) }}</span></p>
-        <md-button ng-if="!behaviorManager.isRunning(behavior)"
-                   class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
-        <md-button ng-if="behaviorManager.isRunning(behavior)"
-                   class="md-secondary md-warn md-raised" ng-click="behaviorManager.stop(behavior)">Stop</md-button>
-      </md-list-item>
-    </md-list>
+    <div ng-if="!behaviorManager.loading" id="behaviors-filter" layout="row" layout-align="center center">
+      <md-input-container md-no-float class="md-block" flex>
+        <md-icon class="material-icons">filter_list</md-icon>
+        <input ng-model="behaviorManager.filter" type="text" placeholder="Behaviors filter">
+      </md-input-container>
+      <md-button ng-show="behaviorManager.filter" class="md-icon-button md-accent" ng-click="behaviorManager.clearFilter()" aria-label="Clear filter">
+        <md-icon class="material-icons">clear</md-icon>
+      </md-button>
+    </div>
+    <md-content flex ng-if="!behaviorManager.loading" id="behaviors">
+      <section>
+        <md-subheader>Installed Behaviors</md-subheader>
+        <md-list>
+          <md-list-item ng-repeat="behavior in behaviorManager.installedBehaviors | filter: behaviorManager.filter" layout="row">
+            <p flex><span>{{ behavior.slice(5) }}</span></p>
+            <md-button ng-if="!behaviorManager.isRunning(behavior)"
+                       class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
+            <md-button ng-if="behaviorManager.isRunning(behavior)"
+                       class="md-secondary md-warn md-raised" ng-click="behaviorManager.stop(behavior)">Stop</md-button>
+          </md-list-item>
+        </md-list>
+      </section>
+      <section>
+        <md-subheader>Built-in Behaviors</md-subheader>
+        <md-list>
+          <md-list-item ng-repeat="behavior in behaviorManager.builtInBehaviors | filter: behaviorManager.filter" layout="row">
+            <p flex><span>{{ behavior.slice(24) }}</span></p>
+            <md-button ng-if="!behaviorManager.isRunning(behavior)"
+                       class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
+            <md-button ng-if="behaviorManager.isRunning(behavior)"
+                       class="md-secondary md-warn md-raised" ng-click="behaviorManager.stop(behavior)">Stop</md-button>
+          </md-list-item>
+        </md-list>
+      </section>
+    </md-content>
   </div>
 </div>
