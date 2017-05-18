@@ -7,9 +7,19 @@
     </md-button>
   </div>
   <div class="section-content" flex>
-    <div class="video-options" layout="row" layout-align="start center">
-      <md-checkbox ng-model="video.showTop">Top</md-checkbox>
-      <md-checkbox ng-model="video.showBottom">Bottom</md-checkbox>
+    <div class="video-options" layout="column">
+      <div class="default" layout="row" layout-align="center center">
+        <md-checkbox ng-model="video.showTop">Top</md-checkbox>
+        <md-checkbox ng-model="video.showBottom">Bottom</md-checkbox>
+      </div>
+      <div class="extra" layout="row" layout-align="center center" layout-wrap>
+        <md-input-container md-no-float class="md-block">
+          <md-icon class="material-icons">subscriptions</md-icon>
+          <input ng-model="video.extraTopic" type="text" placeholder="Extra image topic">
+        </md-input-container>
+        <md-button class="md-primary" ng-if="!video.showExtra" ng-show="video.extraTopic" ng-click="video.showExtra = true">Subscribe</md-button>
+        <md-button class="md-warn" ng-if="video.showExtra" ng-click="video.showExtra = false">Unsubscribe</md-button>
+      </div>
     </div>
     <div class="video-stream-container" layout="row" layout-xs="column" layout-wrap>
       <div flex layout="row" layout-align="center center" ng-if="video.showTop">
@@ -21,19 +31,26 @@
              ng-src="http://{{ video.pepperAddress }}:8080/stream?topic=/pepper/camera/bottom/image_raw">
       </div>
     </div>
+    <div class="video-stream-container extra" ng-if="video.showExtra" layout="row" layout-xs="column" layout-wrap>
+      <div flex layout="row" layout-align="center center" ng-if="video.showExtra">
+        <img class="video-stream md-whiteframe-2dp"
+             ng-src="http://{{ video.pepperAddress }}:8080/stream?topic={{ video.extraTopic }}">
+      </div>
+    </div>
     <div class="arrow-key-container">
       <div class="arrow-key up" data-key="38"
            ng-class="{press: video.headMovingDirection == 'up'}"
-           ng-mousedown="video.moveHead('up')" ng-mouseup="video.stopMovingHead()"></div><br>
+           ng-mousedown="video.startMovingHead('up')" ng-mouseup="video.stopMovingHead()"></div><br>
       <div class="arrow-key left" data-key="37"
            ng-class="{press: video.headMovingDirection == 'left'}"
-           ng-mousedown="video.moveHead('left')" ng-mouseup="video.stopMovingHead()"></div>
+           ng-mousedown="video.startMovingHead('left')" ng-mouseup="video.stopMovingHead()"></div>
       <div class="arrow-key down" data-key="40"
            ng-class="{press: video.headMovingDirection == 'down'}"
-           ng-mousedown="video.moveHead('down')" ng-mouseup="video.stopMovingHead()"></div>
+           ng-mousedown="video.startMovingHead('down')" ng-mouseup="video.stopMovingHead()"></div>
       <div class="arrow-key right" data-key="39"
            ng-class="{press: video.headMovingDirection == 'right'}"
-           ng-mousedown="video.moveHead('right')" ng-mouseup="video.stopMovingHead()"></div>
+           ng-mousedown="video.startMovingHead('right')" ng-mouseup="video.stopMovingHead()"></div>
+      <p>If using keyboard, please do not press more than one arrow key at the same time.</p>
     </div>
   </div>
 </div>

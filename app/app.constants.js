@@ -10,7 +10,7 @@
     .constant('nipplejs', nipplejs)
     .constant('CodeMirror', CodeMirror)
     .constant('Sandbox', SandBox)
-    .constant('pepperAddress', '138.25.61.104')
+    .constant('pepperAddress', 'pepper.local')
     .constant('toolList', ['Joystick', 'Video Stream', 'Behavior Manager', 'Code Editor']);
 
 })();

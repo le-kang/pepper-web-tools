@@ -46,7 +46,7 @@
     vm.setEngagementMode = setEngagementMode;
     vm.start = start;
 
-    $interval(updateWidgets, 3000);
+    $interval(updateWidgets, 1000);
 
     function updateWidgets() {
       if (_.isEmpty(qi)) {
@@ -59,8 +59,8 @@
       promises.push(qi.ALTextToSpeech.getVolume().then(function(data) {
         vm.widgets.speech.volume = data * 100;
       }));
-      promises.push(qi.ALBasicAwareness.isEnabled().then(function(data) {
-        vm.widgets.basicAwareness.isEnabled = data
+      promises.push(qi.ALBasicAwareness.isRunning().then(function(data) {
+        vm.widgets.basicAwareness.isRunning = data
       }));
       _.forEach(_.keys(vm.widgets.basicAwareness.stimulus), function(stimulus) {
         promises.push(qi.ALBasicAwareness.isStimulusDetectionEnabled(stimulus).then(function(data) {
@@ -82,76 +82,72 @@
     }
 
     function showWebsite($event) {
-      if (qi.ALTabletService || $event.keyCode != 13) {
+      if (!qi.ALTabletService || $event.keyCode != 13) {
         return;
       }
-      qi.ALTabletService.showWebView().then(function() {
+      qi.ALTabletService.showWebview().then(function() {
         qi.ALTabletService.loadUrl(vm.widgets.tablet.url);
       });
     }
 
     function showLogos() {
-      if (qi.ALTabletService) {
+      if (!qi.ALTabletService) {
         return;
       }
       qi.ALTabletService.showImage('http://198.18.0.1:8888/assets/images/logos.jpg');
     }
 
     function hideWebView() {
-      if (qi.ALTabletService) {
+      if (!qi.ALTabletService) {
         return;
       }
-      qi.ALTabletService.hideWebView();
+      qi.ALTabletService.hideWebview();
     }
 
     function setBrightness() {
-      if (qi.ALTabletService) {
+      if (!qi.ALTabletService) {
         return;
       }
       qi.ALTabletService.setBrightness(vm.widgets.tablet.brightness);
     }
 
     function setVolume() {
-      if (qi.AlTabletService) {
+      if (!qi.AlTabletService) {
         return;
       }
       qi.AlTabletService.setVolume(vm.widgets.speech.volume);
     }
 
     function say($event) {
-      if (qi.ALTextToSpeech || $event.keyCode != 13) {
+      if (!qi.ALTextToSpeech || $event.keyCode != 13) {
         return;
       }
-      qi.ALTextToSpeech.say(vm.speech.words);
+      qi.ALTextToSpeech.say(vm.widgets.speech.words);
     }
 
     function setBasicAwareness() {
-      if (qi.ALBasicAwareness) {
+      if (!qi.ALBasicAwareness) {
         return;
       }
-      if (vm.widgets.basicAwareness.isEnabled) {
-        qi.ALBasicAwareness.resumeBasicAwareness().then(function() {
-          
-        });
+      if (vm.widgets.basicAwareness.isRunning) {
+        qi.ALBasicAwareness.resumeAwareness();
       } else {
-        qi.ALBasicAwareness.pauseBasicAwareness().then(function() {
-
-        });
+        qi.ALBasicAwareness.pauseAwareness();
       }
     }
 
     function setStimulusDetectionEnabled(stimulus) {
-      var enabled = vm.widgets.basicAwareness.stimulus[stimulus];
-      if (qi.ALBasicAwareness) {
+      if (!qi.ALBasicAwareness) {
         return;
       }
+      var enabled = vm.widgets.basicAwareness.stimulus[stimulus];
       qi.ALBasicAwareness.setStimulusDetectionEnabled(stimulus, enabled).then(function() {
         qi.ALTextToSpeech.say('Stimulus detection of ' + stimulus + ' is ' + (enabled ? ' enabled' : ' disabled'));
       });
     }
 
     function setTrackingMode() {
-      if (qi.ALBasicAwareness) {
+      if (!qi.ALBasicAwareness) {
         return;
       }
       qi.ALBasicAwareness.setTrackingMode(vm.widgets.basicAwareness.trackingMode).then(function() {
@@ -160,10 +156,10 @@
     }
 
     function setEngagementMode() {
-      if (qi.ALBasicAwareness) {
+      if (!qi.ALBasicAwareness) {
         return;
       }
-      qi.ALBasicAwareness.setEngagementMode().then(function() {
+      qi.ALBasicAwareness.setEngagementMode(m.widgets.basicAwareness.engagementMode).then(function() {
         qi.ALTextToSpeech.say('Set engagement mode to ' + vm.widgets.basicAwareness.engagementMode);
       });
     }

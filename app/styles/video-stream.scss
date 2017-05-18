@@ -1,14 +1,40 @@
 .video-options {
-  padding: 8px;
+  padding: 5px;
+  background-color: #eee;
+  margin-bottom: 8px;
+
+  .default {
+    margin-bottom: 8px;
+  }
+
+  md-checkbox {
+    margin-bottom: 0 !important;
+  }
+
+  md-input-container {
+    width: 300px;
+    margin: 0 0 0 10px !important;
+
+    .md-errors-spacer {
+      display: none;
+    }
+  }
+
+  button {
+    min-width: 40px !important;
+    min-height: 30px !important;
+    line-height: 30px !important;
+    margin: 0 8px !important;
+  }
 }
 
 .video-stream-container {
   width: 100%;
+  padding: 8px;
 
   .video-stream {
     max-height: 100%;
     max-width: 100%;
-    min-width: 95%;
     height: auto;
     width: auto;
   }
