@@ -159,7 +159,7 @@
       if (!qi.ALBasicAwareness) {
         return;
       }
-      qi.ALBasicAwareness.setEngagementMode(m.widgets.basicAwareness.engagementMode).then(function() {
+      qi.ALBasicAwareness.setEngagementMode(vm.widgets.basicAwareness.engagementMode).then(function() {
         qi.ALTextToSpeech.say('Set engagement mode to ' + vm.widgets.basicAwareness.engagementMode);
       });
     }
