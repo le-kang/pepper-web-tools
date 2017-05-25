@@ -1,8 +1,64 @@
 // bower:scss
 // endbower
 
-@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);
-@import url(https://fonts.googleapis.com/css?family=Material+Icons);
+/* kaushan-script-regular - latin */
+@font-face {
+  font-family: 'Kaushan Script';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Kaushan Script'), local('KaushanScript-Regular'),
+  url('/assets/fonts/kaushan-script-v5-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+  url('/assets/fonts/kaushan-script-v5-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'),
+  url('/assets/fonts/MaterialIcons-Regular.woff2') format('woff2'),
+  url('/assets/fonts/MaterialIcons-Regular.woff') format('woff'),
+  url('/assets/fonts/MaterialIcons-Regular.ttf') format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  margin-right: 16px !important;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+
+  &.spin {
+    animation: spin 2s infinite linear;
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
 
 html, body {
   width: 100%;
@@ -103,10 +159,6 @@ md-dialog button {
   word-wrap: normal !important;
   white-space: normal !important;
   line-height: normal !important;
-}
-
-.material-icons {
-  margin-right: 16px !important;
 }
 
 .animate-wrapper {

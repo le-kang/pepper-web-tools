@@ -1,7 +1,7 @@
 #behaviors-filter {
-  max-width: 400px;
 
   md-input-container {
+    min-width: 250px;
     margin: 8px !important;
 
     .md-errors-spacer {
@@ -11,6 +11,10 @@
 
   button {
     margin: 0 0 -8px 0;
+  }
+
+  md-checkbox {
+    margin: 8px !important;
   }
 }
 

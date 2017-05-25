@@ -12,6 +12,7 @@
     vm.installedBehaviors = [];
     vm.builtInBehaviors = [];
     vm.filter = '';
+    vm.showOnlyRunning = false;
     vm.runningBehaviors = [];
     vm.clearFilter = clearFilter;
     vm.play = play;

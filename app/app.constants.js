@@ -1,4 +1,4 @@
-/* global moment: moment, QiSession:false, nipplejs:false, CodeMirror: false, SandBox: false */
+/* global moment: false, QiSession:false, nipplejs:false, CodeMirror: false, SandBox: false */
 (function() {
   'use strict';
 

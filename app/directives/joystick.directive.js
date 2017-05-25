@@ -11,13 +11,12 @@
       restrict: 'A',
       link: link
     };
-    var moving = false;
 
     return directive;
 
     function link(scope, el) {
-      var radianPerRotate = Math.PI/9;
-      var distancePerMove = 0.2;
+      var radianPerRotate = Math.PI/12;
+      var distancePerMove = 0.15;
       var distance, radian, direction, moveTimer;
 
       $timeout(function() {
@@ -37,12 +36,12 @@
             }
             $log.log('start');
             moveTimer = $interval(function() {
-              if (!moving && distance > 50) {
-                moveRobot(qi.ALMotion, distancePerMove * Math.sin(radian), -(distancePerMove * Math.cos(radian)), 0);
-              } else if (!moving && distance > 15 && direction) {
-                moveRobot(qi.ALMotion, 0, 0, direction == "right" ? -radianPerRotate: radianPerRotate);
+              if (distance > 50) {
+                qi.ALMotion.moveTo(distancePerMove * Math.sin(radian), -(distancePerMove * Math.cos(radian)), 0)
+              } else if (distance > 15 && direction) {
+                qi.ALMotion.moveTo(0, 0, direction === "right" ? -radianPerRotate: radianPerRotate)
               }
-            }, 100)
+            }, 500)
           })
           .on('move', function(e, data) {
             distance = data.distance;
@@ -56,16 +55,6 @@
             }
           });
       }, 1000)
-    }
-
-    function moveRobot(motion, x, y, r) {
-      moving = true;
-      motion.moveTo(x, y, r).then(function() {
-        moving = false;
-      }, function(error) {
-        moving = false;
-        $log.error("An error occurred: ", error);
-      });
     }
   }
 

@@ -6,7 +6,7 @@
     .controller('HomeController', HomeController);
 
   /** @ngIngect */
-  function HomeController(qi, toolList, _, $interval, $q, $state, $log) {
+  function HomeController($rootScope, qi, toolList, _, $interval, $q, $state, $log, $mdDialog, $timeout) {
     var vm = this;
     vm.tools = toolList;
     vm.widgets = {
@@ -40,6 +40,7 @@
     vm.hideWebView = hideWebView;
     vm.setVolume = setVolume;
     vm.say = say;
+    vm.stopAllBehaviors = stopAllBehaviors;
     vm.setBasicAwareness = setBasicAwareness;
     vm.setStimulusDetectionEnabled = setStimulusDetectionEnabled;
     vm.setTrackingMode = setTrackingMode;
@@ -56,8 +57,8 @@
       promises.push(qi.ALTabletService.getBrightness().then(function(data) {
         vm.widgets.tablet.brightness = data * 100;
       }));
-      promises.push(qi.ALTextToSpeech.getVolume().then(function(data) {
-        vm.widgets.speech.volume = data * 100;
+      promises.push(qi.ALAudioDevice.getOutputVolume().then(function(data) {
+        vm.widgets.speech.volume = data;
       }));
       promises.push(qi.ALBasicAwareness.isRunning().then(function(data) {
         vm.widgets.basicAwareness.isRunning = data
@@ -94,7 +95,9 @@
       if (!qi.ALTabletService) {
         return;
       }
-      qi.ALTabletService.showImage('http://198.18.0.1:8888/assets/images/logos.jpg');
+      qi.ALTabletService.showWebview().then(function() {
+        qi.ALTabletService.loadUrl('http://198.18.0.1:9000');
+      });
     }
 
     function hideWebView() {
@@ -108,14 +111,14 @@
       if (!qi.ALTabletService) {
         return;
       }
-      qi.ALTabletService.setBrightness(vm.widgets.tablet.brightness);
+      qi.ALTabletService.setBrightness(vm.widgets.tablet.brightness / 100);
     }
 
     function setVolume() {
-      if (!qi.AlTabletService) {
+      if (!qi.ALAudioDevice) {
         return;
       }
-      qi.AlTabletService.setVolume(vm.widgets.speech.volume);
+      qi.ALAudioDevice.setOutputVolume(vm.widgets.speech.volume);
     }
 
     function say($event) {
@@ -123,6 +126,72 @@
         return;
       }
       qi.ALTextToSpeech.say(vm.widgets.speech.words);
+    }
+
+    function stopAllBehaviors() {
+      var steps = [
+          {
+            name: 'Disable autonomous life',
+            started: true,
+            finished: false
+          },
+          {
+            name: 'Wake up robot',
+            started: false,
+            finished: false
+          },
+          {
+            name: 'Enable basic awareness',
+            started: false,
+            finished: false
+          },
+          {
+            name: 'Pause Basic Awareness',
+            started: false,
+            finished: false
+          }
+      ];
+      $mdDialog.show({
+        template:
+        '<md-dialog aria-label="Stopping all behaviors">' +
+        '  <md-dialog-content class="md-dialog-content">' +
+        '    <h2 class="md-title">Stopping all behaviors</h2>' +
+        '    <div layout="row" ng-repeat="step in $root.steps">' +
+        '      <p flex style="margin: 5px 30px 5px 0;">{{ step.name }}</p>' +
+        '      <md-icon class="material-icons" ng-class="{ spin: step.started }">' +
+        '        {{ step.started ? "loop" : (step.finished ? "check" : "") }}' +
+        '      </md-icon>' +
+        '    </div>' +
+        '  </md-dialog-content>' +
+        '</md-dialog>',
+        controller: function($rootScope) {
+          $rootScope.steps = steps;
+          $rootScope.$on('behaviors-stopping-progress', function(e, step) {
+            $rootScope.steps[step - 1].started = false;
+            $rootScope.steps[step - 1].finished = true;
+            if (step < 4) {
+              $rootScope.steps[step].started = true;
+            } else {
+              $timeout(function() {
+                $mdDialog.hide()
+              }, 1000)
+            }
+          });
+        }
+      });
+
+      qi.ALAutonomousLife.setState('disabled').then(function() {
+        $rootScope.$emit('behaviors-stopping-progress', 1);
+        qi.ALMotion.wakeUp().then(function() {
+          $rootScope.$emit('behaviors-stopping-progress', 2);
+          qi.ALBasicAwareness.setEnabled(true).then(function() {
+            $rootScope.$emit('behaviors-stopping-progress', 3);
+            qi.ALBasicAwareness.pauseAwareness().then(function() {
+              $rootScope.$emit('behaviors-stopping-progress', 4);
+            })
+          })
+        });
+      });
     }
 
     function setBasicAwareness() {

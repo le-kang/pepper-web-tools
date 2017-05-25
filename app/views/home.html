@@ -9,58 +9,18 @@
           <div flex-gt-sm="50" ng-if="pepper.widgets.initialized">
             <md-card>
               <md-card-title layout="row">
-                <span class="md-headline" flex>Tablet</span>
-              </md-card-title>
-              <md-divider></md-divider>
-              <md-card-content>
-                <md-slider-container>
-                  <md-icon class="material-icons">brightness_medium</md-icon>
-                  <md-slider flex min="1" max="100" step="1" aria-label="Tablet brightness" md-discrete
-                             id="tablet-brightness" ng-model="pepper.widgets.tablet.brightness"
-                             ng-change="pepper.setBrightness()"></md-slider>
-                </md-slider-container>
-                <md-input-container md-no-float class="md-block">
-                  <md-icon class="material-icons">web</md-icon>
-                  <input type="text" placeholder="Website URL" ng-model="pepper.widgets.tablet.url"
-                         ng-keyup="pepper.showWebsite($event)">
-                </md-input-container>
-                <div layout="column" layout-gt-sm="row">
-                  <md-button class="md-raised md-primary" aria-label="Show logos" ng-click="pepper.showLogos()">
-                    Show UTS & Magic Lab Logos
-                  </md-button>
-                  <md-button class="md-raised md-warn" aria-label="Hide web view" ng-click="pepper.hideWebView()">
-                    Hide web view
-                  </md-button>
-                </div>
-              </md-card-content>
-            </md-card>
-            <md-card>
-              <md-card-title layout="row">
-                <span class="md-headline" flex>Speech</span>
-              </md-card-title>
-              <md-divider></md-divider>
-              <md-card-content>
-                <md-slider-container>
-                  <md-icon class="material-icons">volume_up</md-icon>
-                  <md-slider flex min="1" max="100" step="1" aria-label="Speech volume" md-discrete id="speech-volume"
-                             ng-model="pepper.widgets.speech.volume" ng-change="pepper.setVolume()"></md-slider>
-                </md-slider-container>
-                <md-input-container md-no-float class="md-block">
-                  <md-icon class="material-icons">message</md-icon>
-                  <input type="text" placeholder="Say..." ng-model="pepper.widgets.speech.words" ng-keyup="pepper.say($event)">
-                </md-input-container>
-              </md-card-content>
-            </md-card>
-          </div>
-          <div flex-gt-sm="50" ng-if="pepper.widgets.initialized">
-            <md-card>
-              <md-card-title layout="row">
                 <span class="md-headline" flex>Basic Awareness</span>
                 <md-switch aria-label="Basic awareness" ng-model="pepper.widgets.basicAwareness.isRunning"
                            ng-change="pepper.setBasicAwareness()"></md-switch>
               </md-card-title>
               <md-divider></md-divider>
               <md-card-content>
+                <div layout="row" layout-wrap>
+                  <md-button class="md-raised md-warn" aria-label="Stop all behaviors" ng-click="pepper.stopAllBehaviors()">
+                    Stop All Behaviors
+                  </md-button>
+                  <em>!!! Check <a href="https://gitlab.com/uts-unleashed/docs/wikis/managing-pepper-awareness#how-to-stop-the-robot-doing-random-stuff-by-itself-but-keep-it-commandable-with-sensor-and-people-data" target="_blank">here</a> if you are not sure what this button will do</em>
+                </div>
                 <h3>Stimulus detection:</h3>
                 <div layout="row" layout-wrap>
                   <md-switch aria-label="Stimulus: People" flex="50" flex-xs="100"
@@ -97,6 +57,52 @@
                   <md-radio-button value="FullyEngaged" flex="33" flex-xs="100">FullyEngaged</md-radio-button>
                   <md-radio-button value="SemiEngaged" flex="33" flex-xs="100">SemiEngaged</md-radio-button>
                 </md-radio-group>
+              </md-card-content>
+            </md-card>
+          </div>
+          <div flex-gt-sm="50" ng-if="pepper.widgets.initialized">
+            <md-card>
+              <md-card-title layout="row">
+                <span class="md-headline" flex>Tablet</span>
+              </md-card-title>
+              <md-divider></md-divider>
+              <md-card-content>
+                <md-slider-container>
+                  <md-icon class="material-icons">brightness_medium</md-icon>
+                  <md-slider flex min="0" max="100" step="10" aria-label="Tablet brightness" md-discrete
+                             id="tablet-brightness" ng-model="pepper.widgets.tablet.brightness"
+                             ng-change="pepper.setBrightness()"></md-slider>
+                </md-slider-container>
+                <md-input-container md-no-float class="md-block">
+                  <md-icon class="material-icons">web</md-icon>
+                  <input type="text" placeholder="Website URL" ng-model="pepper.widgets.tablet.url"
+                         ng-keyup="pepper.showWebsite($event)">
+                </md-input-container>
+                <div layout="column" layout-gt-sm="row">
+                  <md-button class="md-raised md-primary" aria-label="Show logos" ng-click="pepper.showLogos()">
+                    Show UTS & Magic Lab Logos
+                  </md-button>
+                  <md-button class="md-raised md-warn" aria-label="Hide web view" ng-click="pepper.hideWebView()">
+                    Hide web view
+                  </md-button>
+                </div>
+              </md-card-content>
+            </md-card>
+            <md-card>
+              <md-card-title layout="row">
+                <span class="md-headline" flex>Speech</span>
+              </md-card-title>
+              <md-divider></md-divider>
+              <md-card-content>
+                <md-slider-container>
+                  <md-icon class="material-icons">volume_up</md-icon>
+                  <md-slider flex min="0" max="100" step="5" aria-label="Speech volume" md-discrete id="speech-volume"
+                             ng-model="pepper.widgets.speech.volume" ng-change="pepper.setVolume()"></md-slider>
+                </md-slider-container>
+                <md-input-container md-no-float class="md-block">
+                  <md-icon class="material-icons">message</md-icon>
+                  <input type="text" placeholder="Say..." ng-model="pepper.widgets.speech.words" ng-keyup="pepper.say($event)">
+                </md-input-container>
               </md-card-content>
             </md-card>
           </div>

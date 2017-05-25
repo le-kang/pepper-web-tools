@@ -113,16 +113,6 @@ gulp.task('html', ['inject', 'templates'], function() {
 });
 
 /**
- * Fonts Task
- */
-gulp.task('fonts', function() {
-  return gulp.src(mainBowerFiles())
-    .pipe(filter('**/*.{oft,eot,svg,ttf,woff,woff2}'))
-    .pipe(flatten())
-    .pipe(gulp.dest('dist/fonts/'));
-});
-
-/**
  * Other Task
  */
 gulp.task('other', function() {
@@ -152,7 +142,7 @@ gulp.task('serve', ['watch'], function() {
 /**
  * Build Task
  */
-gulp.task('build', ['html', 'fonts', 'other']);
+gulp.task('build', ['html', 'other']);
 
 /**
  * Clean Task

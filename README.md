@@ -25,4 +25,4 @@ cd ../acorn/ && npm install
 
 ## Deployment
 
-run `gulp`, then copy `dist/` folder to pepper's `/home/nao/web-tools` 
+run `gulp`, then `scp -r dist/ nao@pepper.local:/home/nao/web_tools/` 

@@ -46,7 +46,7 @@
             $window.location.reload();
           });
         });
-      }, 10000);
+      }, 30000);
 
       $rootScope.$on('qi-loaded', function() {
         $timeout.cancel(timeout);

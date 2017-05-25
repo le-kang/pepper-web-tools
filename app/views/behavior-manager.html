@@ -10,20 +10,22 @@
     <div flex ng-if="behaviorManager.loading" layout="column" layout-align="center center">
       <p>Loading behaviors, please wait...</p>
     </div>
-    <div ng-if="!behaviorManager.loading" id="behaviors-filter" layout="row" layout-align="center center">
-      <md-input-container md-no-float class="md-block" flex>
+    <div ng-if="!behaviorManager.loading" id="behaviors-filter" layout="row" layout-align="start center" layout-wrap>
+      <md-input-container md-no-float class="md-block">
         <md-icon class="material-icons">filter_list</md-icon>
         <input ng-model="behaviorManager.filter" type="text" placeholder="Behaviors filter">
       </md-input-container>
       <md-button ng-show="behaviorManager.filter" class="md-icon-button md-accent" ng-click="behaviorManager.clearFilter()" aria-label="Clear filter">
         <md-icon class="material-icons">clear</md-icon>
       </md-button>
+      <md-checkbox ng-model="behaviorManager.showOnlyRunning">Show only running behaviors</md-checkbox>
     </div>
     <md-content flex ng-if="!behaviorManager.loading" id="behaviors">
       <section>
         <md-subheader>Installed Behaviors</md-subheader>
         <md-list>
-          <md-list-item ng-repeat="behavior in behaviorManager.installedBehaviors | filter: behaviorManager.filter" layout="row">
+          <md-list-item ng-repeat="behavior in behaviorManager.installedBehaviors | filter: behaviorManager.filter" layout="row"
+                        ng-show="!behaviorManager.showOnlyRunning || behaviorManager.isRunning(behavior)">
             <p flex><span>{{ behavior.slice(5) }}</span></p>
             <md-button ng-if="!behaviorManager.isRunning(behavior)"
                        class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
@@ -35,7 +37,8 @@
       <section>
         <md-subheader>Built-in Behaviors</md-subheader>
         <md-list>
-          <md-list-item ng-repeat="behavior in behaviorManager.builtInBehaviors | filter: behaviorManager.filter" layout="row">
+          <md-list-item ng-repeat="behavior in behaviorManager.builtInBehaviors | filter: behaviorManager.filter" layout="row"
+                        ng-show="!behaviorManager.showOnlyRunning || behaviorManager.isRunning(behavior)">
             <p flex><span>{{ behavior.slice(24) }}</span></p>
             <md-button ng-if="!behaviorManager.isRunning(behavior)"
                        class="md-secondary md-primary md-raised" ng-click="behaviorManager.play(behavior)">Play</md-button>
