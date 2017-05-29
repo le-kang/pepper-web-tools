@@ -36,7 +36,7 @@
 
     vm.setBrightness = setBrightness;
     vm.showWebsite = showWebsite;
-    vm.showLogos = showLogos;
+    vm.startMonitorApp = startMonitorApp;
     vm.hideWebView = hideWebView;
     vm.setVolume = setVolume;
     vm.say = say;
@@ -91,7 +91,7 @@
       });
     }
 
-    function showLogos() {
+    function startMonitorApp() {
       if (!qi.ALTabletService) {
         return;
       }
@@ -146,7 +146,7 @@
             finished: false
           },
           {
-            name: 'Pause Basic Awareness',
+            name: 'Pause basic awareness',
             started: false,
             finished: false
           }
