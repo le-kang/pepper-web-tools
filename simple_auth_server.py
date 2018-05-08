@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/tmp/gentoo/usr/bin/python
 # -*- encoding: UTF-8 -*-
 
 import SocketServer
